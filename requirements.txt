@@ -1,0 +1,8 @@
+dill
+from-root
+notebook
+gdown
+flask-cors
+flask
+ultralytics==8.4.37
+-e.
