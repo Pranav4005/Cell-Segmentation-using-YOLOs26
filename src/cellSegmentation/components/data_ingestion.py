@@ -51,7 +51,7 @@ class DataIngestion:
         Function returns None
         """
         try:
-            feature_store_path = self.data_ingestion_config.feature_store_file_path
+            feature_store_path = self.data_ingestion_config.feature_store_dir
             os.makedirs(feature_store_path, exist_ok=True)
             with zipfile.ZipFile(zip_file_path, 'r') as zip_ref:
                 zip_ref.extractall(feature_store_path)
