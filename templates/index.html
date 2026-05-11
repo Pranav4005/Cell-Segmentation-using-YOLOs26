@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoralSegmentation</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">🪸 CoralSegmentation</div>
+    </nav>
+
+    <main class="container">
+
+        <header>
+            <h1>Coral Segmentation</h1>
+
+            <p>
+                Upload an underwater image to generate
+                a high-precision segmentation mask.
+            </p>
+        </header>
+
+        <section class="upload-section">
+
+            <form id="upload-form"
+            enctype="multipart/form-data">
+
+                <div class="drop-zone" id="drop-zone">
+
+                    <span class="drop-zone__prompt">
+                        Drop image here or click to upload
+                    </span>
+
+                    <input
+                        type="file"
+                        name="file"
+                        id="file-input"
+                        class="drop-zone__input"
+                        accept="image/*"
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn-primary"
+                    id="submit-btn"
+                >
+                    Process Image
+                </button>
+
+            </form>
+
+        </section>
+
+        <section
+            class="results-section"
+            id="results"
+            style="display: none;"
+        >
+
+            <div class="result-card">
+
+                <h3>Original Image</h3>
+
+                <img
+                    id="original-preview"
+                    src=""
+                    alt="Original"
+                >
+
+            </div>
+
+            <div class="result-card">
+
+                <h3>Segmented Mask</h3>
+
+                <img
+                    id="segmented-preview"
+                    src=""
+                    alt="Mask"
+                >
+
+            </div>
+
+        </section>
+
+        <div
+            id="loader"
+            class="loader"
+            style="display: none;"
+        ></div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        const dropZone =
+            document.getElementById("drop-zone");
+
+        const fileInput =
+            document.getElementById("file-input");
+
+        const uploadForm =
+            document.getElementById("upload-form");
+
+
+
+        // Open file explorer
+        dropZone.addEventListener("click", () => {
+
+            fileInput.click();
+        });
+
+
+
+        // Show selected filename
+        fileInput.addEventListener("change", () => {
+
+            if (fileInput.files.length) {
+
+                dropZone.querySelector(
+                    ".drop-zone__prompt"
+                ).textContent =
+                    fileInput.files[0].name;
+            }
+        });
+
+
+
+        // Handle form submission
+        uploadForm.addEventListener(
+            "submit",
+            async function (e) {
+
+                e.preventDefault();
+
+                const file = fileInput.files[0];
+
+                if (!file) {
+
+                    alert("Please upload an image");
+
+                    return;
+                }
+
+                // Show loader
+                document.getElementById(
+                    "loader"
+                ).style.display = "block";
+
+
+                const reader = new FileReader();
+
+                reader.onload = async function () {
+
+                    // Show original image
+                    document.getElementById(
+                        "original-preview"
+                    ).src = reader.result;
+
+
+                    // Convert to Base64
+                    const base64Image =
+                        reader.result.split(",")[1];
+
+                    try {
+
+                        // Send to Flask backend
+                        const response = await fetch(
+                            "/predict",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                    "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    image: base64Image
+                                })
+                            }
+                        );
+
+                        const data =
+                            await response.json();
+
+                        // Show prediction image
+                        document.getElementById(
+                            "segmented-preview"
+                        ).src =
+                            "data:image/jpeg;base64," +
+                            data.image;
+
+                        // Display results section
+                        document.getElementById(
+                            "results"
+                        ).style.display = "grid";
+
+                    }
+
+                    catch (error) {
+
+                        console.error(error);
+
+                        alert(
+                            "Prediction failed"
+                        );
+                    }
+
+                    // Hide loader
+                    document.getElementById(
+                        "loader"
+                    ).style.display = "none";
+                };
+
+                reader.readAsDataURL(file);
+            }
+        );
+
+    </script>
+
+</body>
+</html>
