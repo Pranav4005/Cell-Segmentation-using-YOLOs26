@@ -8,3 +8,10 @@ DATA_DOWNLOAD_URL: str = "https://drive.google.com/file/d/14yhCfP0sxbDl4iu4ZBpkC
 DATA_VALIDATION_DIR_NAME: str = "data_validation"
 DATA_VALIDATION_STATUS_FILE: str = "status.txt"
 DATA_VALIDATION_ALL_REQUIRED_FILES= ["train", "valid", "test", "data.yaml"]
+
+
+MODEL_TRAINER_DIR_NAME: str = "model_trainer"
+MODEL_TRAINER_PRETRAINED_WEIGHT_NAME: str = "yolo26s-seg.pt"
+MODEL_TRAINER_NO_EPOCHS: int = 50
+
+
