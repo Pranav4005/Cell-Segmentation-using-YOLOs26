@@ -102,6 +102,11 @@ class TrainPipeline:
             model_trainer_artifact = ModelTrainerArtifact(
                 trained_model_file_path=trained_model_path
             )
+            logging.info("Initiated model trainer")
+
+            logging.info(
+                "Exited the initiate_model_trainer method of TrainPipeline class"
+            )
 
             return model_trainer_artifact
 
@@ -130,11 +135,5 @@ class TrainPipeline:
             raise AppException(e, sys)
 
 
-    def run_pipeline(self) -> None:
-        try:
-            data_ingestion_artifact = self.start_data_ingestion()
-            data_validation_artifact = self.start_data_validation(data_ingestion_artifact=data_ingestion_artifact)
-            model_trainer_artifact = self.initiate_model_trainer()
-        except Exception as e:
-            raise AppException(e, sys)
+
    
