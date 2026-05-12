@@ -154,7 +154,20 @@ def predictRoute():
             f"Error occurred: {str(e)}"
         )
 
+@app.route("/realtime")
+def realtimeRoute():
 
+    try:
+
+        os.system("python real_time.py")
+
+        return "Real-time coral segmentation started"
+
+    except Exception as e:
+
+        return Response(
+            f"Error occurred: {str(e)}"
+        )
 if __name__ == "__main__":
 
     app.run(

@@ -14,82 +14,338 @@ body {
     padding: 0;
 }
 
+
+/* Navbar */
+
 nav {
+
     padding: 1.5rem 10%;
+
     background: var(--white);
+
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
 }
 
 .logo {
+
     font-weight: 600;
+
     font-size: 1.5rem;
+
     color: var(--primary);
 }
 
-.container {
-    max-width: 1000px;
-    margin: 4rem auto;
-    padding: 0 20px;
-    text-align: center;
+.nav-links {
+
+    display: flex;
+
+    list-style: none;
+
+    gap: 30px;
+
+    margin: 0;
+
+    padding: 0;
 }
 
-.drop-zone {
-    max-width: 500px;
-    height: 200px;
-    padding: 25px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 2rem auto;
-    border: 2px dashed var(--secondary);
-    border-radius: 12px;
-    cursor: pointer;
+.nav-links a {
+
+    text-decoration: none;
+
+    color: var(--text);
+
+    font-weight: 600;
+
     transition: 0.3s;
 }
 
+.nav-links a:hover {
+
+    color: var(--secondary);
+}
+
+
+/* Hero Section */
+
+.hero {
+
+    text-align: center;
+
+    padding: 80px 20px;
+}
+
+.hero h1 {
+
+    font-size: 52px;
+
+    margin-bottom: 20px;
+
+    color: var(--primary);
+}
+
+.hero p {
+
+    font-size: 20px;
+
+    color: #555;
+}
+
+
+/* Main Container */
+
+.container {
+
+    max-width: 1000px;
+
+    margin: 4rem auto;
+
+    padding: 0 20px;
+
+    text-align: center;
+}
+
+
+/* Upload + Realtime Sections */
+
+.upload-container,
+.realtime-section {
+
+    text-align: center;
+
+    margin-top: 60px;
+}
+
+.upload-container h2,
+.realtime-section h2 {
+
+    font-size: 32px;
+
+    margin-bottom: 20px;
+}
+
+
+/* Upload Zone */
+
+.drop-zone {
+
+    max-width: 500px;
+
+    height: 200px;
+
+    padding: 25px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    margin: 2rem auto;
+
+    border: 2px dashed var(--secondary);
+
+    border-radius: 12px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+    background: white;
+}
+
 .drop-zone:hover {
+
     background: #e0f2fe;
 }
 
-.drop-zone__input { display: none; }
+.drop-zone__input {
+
+    display: none;
+}
+
+.drop-zone__prompt {
+
+    font-size: 18px;
+
+    color: #555;
+}
+
+
+/* Buttons */
 
 .btn-primary {
+
     background: var(--primary);
+
     color: white;
+
     padding: 12px 32px;
+
     border: none;
+
     border-radius: 8px;
+
     font-size: 1rem;
+
     cursor: pointer;
+
     transition: transform 0.2s;
 }
 
 .btn-primary:hover {
+
     transform: translateY(-2px);
+
     background: var(--secondary);
 }
 
+
+.btn-realtime {
+
+    background: #00b894;
+
+    color: white;
+
+    padding: 14px 32px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    transition: 0.3s;
+}
+.realtime-note {
+
+    margin-top: 15px;
+
+    font-size: 15px;
+
+    color: #555;
+
+    background: rgba(0, 180, 216, 0.1);
+
+    display: inline-block;
+
+    padding: 10px 18px;
+
+    border-radius: 8px;
+}
+.btn-realtime:hover {
+
+    background: #019875;
+
+    transform: translateY(-2px);
+}
+
+
+/* Results Section */
+
 .results-section {
+
     margin-top: 3rem;
+
     display: grid;
+
     grid-template-columns: 1fr 1fr;
+
     gap: 20px;
 }
 
+.result-card {
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 16px;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.result-card h3 {
+
+    margin-bottom: 20px;
+}
+
 .result-card img {
+
     width: 100%;
+
     border-radius: 12px;
+
     box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
+
+/* Loader */
+
 .loader {
+
     border: 5px solid #f3f3f3;
+
     border-top: 5px solid var(--primary);
+
     border-radius: 50%;
+
     width: 50px;
+
     height: 50px;
+
     animation: spin 1s linear infinite;
+
     margin: 2rem auto;
 }
 
-@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes spin {
+
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* Responsive Design */
+
+@media (max-width: 768px) {
+
+    .results-section {
+
+        grid-template-columns: 1fr;
+    }
+
+    .hero h1 {
+
+        font-size: 38px;
+    }
+
+    .hero p {
+
+        font-size: 16px;
+    }
+
+    nav {
+
+        flex-direction: column;
+
+        gap: 15px;
+    }
+
+    .nav-links {
+
+        gap: 15px;
+    }
+}

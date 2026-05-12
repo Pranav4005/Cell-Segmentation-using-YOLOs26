@@ -1,216 +1,323 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CoralSegmentation</title>
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Coral Segmentation</title>
 
     <link rel="stylesheet"
     href="{{ url_for('static', filename='style.css') }}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap"
+    rel="stylesheet">
+
 </head>
 
 <body>
 
+
+    <!-- Navbar -->
     <nav>
-        <div class="logo">🪸 CoralSegmentation</div>
+
+        <div class="logo">
+            🪸 CoralSegmentation
+        </div>
+
+        <ul class="nav-links">
+
+            <li>
+                <a href="#home">Home</a>
+            </li>
+
+            <li>
+                <a href="#upload">
+                    Image Segmentation
+                </a>
+            </li>
+
+            <li>
+                <a href="#realtime">
+                    Real-Time Detection
+                </a>
+            </li>
+
+        </ul>
+
     </nav>
 
-    <main class="container">
 
-        <header>
-            <h1>Coral Segmentation</h1>
 
-            <p>
-                Upload an underwater image to generate
-                a high-precision segmentation mask.
-            </p>
-        </header>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
 
-        <section class="upload-section">
+        <h1>
+            AI Powered Coral Segmentation
+        </h1>
 
-            <form id="upload-form"
-            enctype="multipart/form-data">
+        <p>
+            Real-time underwater coral analysis using
+            YOLO segmentation models.
+        </p>
 
-                <div class="drop-zone" id="drop-zone">
+    </section>
 
-                    <span class="drop-zone__prompt">
-                        Drop image here or click to upload
-                    </span>
 
-                    <input
-                        type="file"
-                        name="file"
-                        id="file-input"
-                        class="drop-zone__input"
-                        accept="image/*"
-                    >
 
-                </div>
+    <!-- Upload Section -->
+    <section class="upload-container"
+    id="upload">
 
-                <button
-                    type="submit"
-                    class="btn-primary"
-                    id="submit-btn"
+        <h2>
+            Upload Coral Image
+        </h2>
+
+        <form id="upload-form"
+        enctype="multipart/form-data">
+
+            <div class="drop-zone"
+            id="drop-zone">
+
+                <span class="drop-zone__prompt">
+
+                    Drop image here or click to upload
+
+                </span>
+
+                <input
+                    type="file"
+                    id="file-input"
+                    class="drop-zone__input"
+                    accept="image/*"
                 >
-                    Process Image
-                </button>
 
-            </form>
+            </div>
 
-        </section>
+            <button
+                type="submit"
+                class="btn-primary"
+            >
 
-        <section
-            class="results-section"
-            id="results"
-            style="display: none;"
+                Segment Coral
+
+            </button>
+
+        </form>
+
+    </section>
+
+
+
+    <!-- Real-Time Section -->
+    <section class="realtime-section"
+    id="realtime">
+
+        <h2>
+            Real-Time Coral Detection
+        </h2>
+
+        <p>
+    Start live webcam-based coral segmentation.
+        </p>
+
+        <p class="realtime-note">
+    Press <strong>Q</strong> on the webcam window
+    to stop real-time detection.
+        </p>
+
+        <button
+            class="btn-realtime"
+            onclick="startRealtime()"
         >
 
-            <div class="result-card">
+            Start Real-Time Detection
 
-                <h3>Original Image</h3>
+        </button>
 
-                <img
-                    id="original-preview"
-                    src=""
-                    alt="Original"
-                >
+    </section>
 
-            </div>
 
-            <div class="result-card">
 
-                <h3>Segmented Mask</h3>
+    <!-- Results Section -->
+    <section
+        class="results-section"
+        id="results"
+        style="display:none;"
+    >
 
-                <img
-                    id="segmented-preview"
-                    src=""
-                    alt="Mask"
-                >
+        <div class="result-card">
 
-            </div>
+            <h3>
+                Original Image
+            </h3>
 
-        </section>
+            <img
+                id="original-preview"
+                src=""
+            >
 
-        <div
-            id="loader"
-            class="loader"
-            style="display: none;"
-        ></div>
+        </div>
 
-    </main>
+        <div class="result-card">
+
+            <h3>
+                Segmented Output
+            </h3>
+
+            <img
+                id="segmented-preview"
+                src=""
+            >
+
+        </div>
+
+    </section>
+
+
+
+    <!-- Loader -->
+    <div
+        id="loader"
+        class="loader"
+        style="display:none;"
+    ></div>
+
 
 
     <!-- JavaScript -->
     <script>
 
         const dropZone =
-            document.getElementById("drop-zone");
+            document.getElementById(
+                "drop-zone"
+            );
 
         const fileInput =
-            document.getElementById("file-input");
+            document.getElementById(
+                "file-input"
+            );
 
         const uploadForm =
-            document.getElementById("upload-form");
+            document.getElementById(
+                "upload-form"
+            );
 
 
 
         // Open file explorer
-        dropZone.addEventListener("click", () => {
+        dropZone.addEventListener(
+            "click",
+            () => {
 
-            fileInput.click();
-        });
-
-
-
-        // Show selected filename
-        fileInput.addEventListener("change", () => {
-
-            if (fileInput.files.length) {
-
-                dropZone.querySelector(
-                    ".drop-zone__prompt"
-                ).textContent =
-                    fileInput.files[0].name;
+                fileInput.click();
             }
-        });
+        );
 
 
 
-        // Handle form submission
+        // Display filename
+        fileInput.addEventListener(
+            "change",
+            () => {
+
+                if (
+                    fileInput.files.length
+                ) {
+
+                    dropZone.querySelector(
+                        ".drop-zone__prompt"
+                    ).textContent =
+
+                    fileInput.files[0].name;
+                }
+            }
+        );
+
+
+
+        // Image prediction
         uploadForm.addEventListener(
             "submit",
+
             async function (e) {
 
                 e.preventDefault();
 
-                const file = fileInput.files[0];
+                const file =
+                    fileInput.files[0];
 
                 if (!file) {
 
-                    alert("Please upload an image");
+                    alert(
+                        "Please upload image"
+                    );
 
                     return;
                 }
 
-                // Show loader
                 document.getElementById(
                     "loader"
                 ).style.display = "block";
 
 
-                const reader = new FileReader();
+                const reader =
+                    new FileReader();
 
-                reader.onload = async function () {
 
-                    // Show original image
+                reader.onload =
+                async function () {
+
                     document.getElementById(
                         "original-preview"
                     ).src = reader.result;
 
 
-                    // Convert to Base64
                     const base64Image =
-                        reader.result.split(",")[1];
+                        reader.result
+                        .split(",")[1];
 
                     try {
 
-                        // Send to Flask backend
-                        const response = await fetch(
-                            "/predict",
-                            {
-                                method: "POST",
+                        const response =
+                            await fetch(
+                                "/predict",
+                                {
+                                    method:"POST",
 
-                                headers: {
-                                    "Content-Type":
-                                    "application/json"
-                                },
+                                    headers:{
+                                        "Content-Type":
+                                        "application/json"
+                                    },
 
-                                body: JSON.stringify({
-                                    image: base64Image
-                                })
-                            }
-                        );
+                                    body: JSON.stringify({
+                                        image: base64Image
+                                    })
+                                }
+                            );
 
                         const data =
                             await response.json();
 
-                        // Show prediction image
+
                         document.getElementById(
                             "segmented-preview"
                         ).src =
-                            "data:image/jpeg;base64," +
-                            data.image;
 
-                        // Display results section
+                        "data:image/jpeg;base64,"
+                        + data.image;
+
+
                         document.getElementById(
                             "results"
                         ).style.display = "grid";
 
                     }
 
-                    catch (error) {
+                    catch(error){
 
                         console.error(error);
 
@@ -219,7 +326,6 @@
                         );
                     }
 
-                    // Hide loader
                     document.getElementById(
                         "loader"
                     ).style.display = "none";
@@ -229,7 +335,36 @@
             }
         );
 
+
+
+        // Real-time route
+        async function startRealtime() {
+
+            try {
+
+                const response =
+                    await fetch(
+                        "/realtime"
+                    );
+
+                const message =
+                    await response.text();
+
+                alert(message);
+            }
+
+            catch(error){
+
+                console.error(error);
+
+                alert(
+                    "Realtime detection failed"
+                );
+            }
+        }
+
     </script>
 
 </body>
+
 </html>
